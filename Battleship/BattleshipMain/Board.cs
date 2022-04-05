@@ -65,32 +65,67 @@ namespace BattleshipMain
             var cruiser = new Ship(3, "Cruiser");
             var destroyer = new Ship(2, "Destoryer");
 
-            var ships = new List<Ship>() { carrier, battleship, submarine, cruiser, destroyer};
-            
-            Random rand = new Random();
+            var ships = new List<Ship>() { carrier, battleship, submarine, cruiser, destroyer}; 
 
-            int startColumn = rand.Next(0, Size);
-            int startRow = rand.Next(0, Size);
-            int orientation = rand.Next(0, 2); //0 - horizontal; 1- vertical
-
-            foreach(var item in ships)
+            foreach (var item in ships)
             {
-                if (orientation == 0)
+                bool checkShip = false;                              
+
+                while(checkShip == false)
                 {
-                    for (int i = 0; i < carrier.Width; i++)
+                    Random rand = new Random();
+                    int startColumn = rand.Next(0, Size);
+                    int startRow = rand.Next(0, Size);
+                    int orientation = rand.Next(0, 2); //0 - horizontal; 1- vertical                             
+                    
+                    if (IsPositionValid(startColumn, startRow, orientation, item.Width) == true)
                     {
-                        Value[startColumn + i, startRow] = "[s]";
+                        checkShip = true;
+                        Console.WriteLine($"{item.Name} {startColumn} {startRow}");
+
+                        if (orientation == 0)
+                        {
+                            for (int i = 0; i < item.Width; i++)
+                            {
+                                Value[startColumn + i, startRow] = "[s]";
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < item.Width; i++)
+                            {
+                                Value[startColumn, startRow + i] = "[s]";
+                            }
+                        }                        
                     }
+                }   
+            }           
+        }
+
+        public bool IsPositionValid(int startColumn, int startRow, int orientation, int shipWidth)
+        {
+            if (orientation == 0)
+            {                
+                if (startColumn + shipWidth < Size)
+                {
+                    return true;
                 }
                 else
                 {
-                    for (int i = 0; i < carrier.Width; i++)
-                    {
-                        Value[startColumn, startRow + i] = "[s]";
-                    }
+                    return false;
+                }                                    
+            }
+            else
+            {                
+                if (startRow + shipWidth < Size)
+                {
+                    return true;
                 }
-            }            
-
+                else
+                {
+                    return false;
+                }                                    
+            }
         }
     }
 }
