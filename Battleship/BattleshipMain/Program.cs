@@ -11,12 +11,23 @@ namespace BattleshipMain
                         
             Console.WriteLine("Let the battle begin");
 
-            boardPlayerOne.DisplayBoard();
-            Console.WriteLine();
-            boardPlayerOne.DisplayBoard();
+            Console.WriteLine("Player One");
 
             boardPlayerOne.PlaceShips();
             boardPlayerOne.DisplayBoard();
+
+            Console.WriteLine();
+
+            Console.WriteLine("Player Two");
+
+            boardPlayerTwo.PlaceShips();
+            boardPlayerTwo.DisplayBoard();
+            
+            boardPlayerOne.FireBoard();
+            boardPlayerTwo.FireBoard();
+
+            boardPlayerOne.DisplayBoard();
+            boardPlayerTwo.DisplayBoard();
             Console.ReadKey();
         } 
     }
