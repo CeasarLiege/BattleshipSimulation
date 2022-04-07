@@ -6,6 +6,9 @@ namespace BattleshipMain
     public class Board
     {
         private const int Size = 10;
+        private const string ShipSegment = "[s]";
+        private const string Hit = "[x]";
+        private const string ShipHittedSegment = "[$]";
 
         public string[,] Value { get; set; }
 
@@ -73,7 +76,7 @@ namespace BattleshipMain
 
                 while (checkShip == false)
                 {
-                    Random rand = new Random();
+                    Random rand = new Random(Guid.NewGuid().GetHashCode());
                     int startColumn = rand.Next(0, Size);
                     int startRow = rand.Next(0, Size);
                     int orientation = rand.Next(0, 2); //0 - horizontal; 1- vertical                             
@@ -81,20 +84,19 @@ namespace BattleshipMain
                     if (IsPositionValid(startColumn, startRow, orientation, item.Width) == true)
                     {
                         checkShip = true;
-                        Console.WriteLine($"{item.Name} {startColumn} {startRow} {orientation}");
-
+                        
                         if (orientation == 0)
                         {
                             for (int i = 0; i < item.Width; i++)
                             {
-                                Value[startColumn + i, startRow] = "[s]";
+                                Value[startColumn + i, startRow] = ShipSegment;
                             }
                         }
                         else
                         {
                             for (int i = 0; i < item.Width; i++)
                             {
-                                Value[startColumn, startRow + i] = "[s]";
+                                Value[startColumn, startRow + i] = ShipSegment;
                             }
                         }
                     }
@@ -137,7 +139,7 @@ namespace BattleshipMain
                         {
                             if ((i >= 0 && j >= 0) && (i < Size && j < Size))
                             {
-                                if (Value[i, j] == "[s]")
+                                if (Value[i, j] == ShipSegment)
                                 {
                                     return false;
                                 }
@@ -153,7 +155,7 @@ namespace BattleshipMain
                         {
                             if ((i >= 0 && j >= 0) && (i < Size && j < Size))
                             {
-                                if (Value[i, j] == "[s]")
+                                if (Value[i, j] == ShipSegment)
                                 {
                                     return false;
                                 }
@@ -165,33 +167,28 @@ namespace BattleshipMain
             }
         }
 
-        public string[,] FireBoard()
+        public void Fire(ref int targetCounter)
         {
-            Random rand = new Random();
-            int x, y = rand.Next(0, Size);
+            Random rand = new Random(Guid.NewGuid().GetHashCode());
+            int x = rand.Next(0, Size);
+            int y = rand.Next(0, Size);
 
             string[,] board = new string[Size, Size];
-
-            for (int i = 0; i < Size; i++)
+                                
+            if (Value[x, y] == ShipHittedSegment || Value[x, y] == Hit)
             {
-                for (int j = 0; j < Size; j++)
-                {
-                    if (Value[i, j] == "[$]" || Value[i, j] == "[x]")
-                    {
-                        
-                    }
-                    else if(Value[i, j] == "[s]")
-                    {
-                        Value[i, j] = "[$]";
-                    }
-                    else
-                    {
-                        Value[i, j] = "[x]";
-                    }
-                }
+                
             }
+            else if (Value[x, y] == ShipSegment)
+            {
+                Value[x, y] = ShipHittedSegment;
 
-            return Value;
+                targetCounter++;
+            }
+            else
+            {
+                Value[x, y] = Hit;                
+            }
         }
     }
 }

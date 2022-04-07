@@ -22,12 +22,35 @@ namespace BattleshipMain
 
             boardPlayerTwo.PlaceShips();
             boardPlayerTwo.DisplayBoard();
-            
-            boardPlayerOne.FireBoard();
-            boardPlayerTwo.FireBoard();
 
+            Console.WriteLine();
+
+            int targetCounterOne = 0;
+            int targetCounterTwo = 0;
+
+            while (targetCounterOne != 17 || targetCounterTwo != 17)
+            {                
+                boardPlayerOne.Fire(ref targetCounterOne);
+
+                boardPlayerTwo.Fire(ref targetCounterTwo);
+            }
+
+            if (targetCounterOne == 17)
+            {
+                Console.WriteLine("Player One wins!");
+            }
+            else
+            {
+                Console.WriteLine("Player Two wins!");
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("Player One Board");
             boardPlayerOne.DisplayBoard();
+            Console.WriteLine("Player Two Board");
             boardPlayerTwo.DisplayBoard();
+
             Console.ReadKey();
         } 
     }

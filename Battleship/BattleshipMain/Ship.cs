@@ -2,14 +2,16 @@
 {
     public class Ship
     {
-        public bool IsDestroyed { get; set; }
         public int Width { get; set; }
+
+        //for the future improvements
+        public bool IsDestroyed { get; set; }        
         public string Name { get; set; }
         
         public Ship(int shipWidth, string shipName)
         {
-            IsDestroyed = false;
             Width = shipWidth;
+            IsDestroyed = false;            
             Name = shipName;
         }        
     }
